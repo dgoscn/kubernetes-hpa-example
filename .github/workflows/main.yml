@@ -1,0 +1,40 @@
+name: main
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build Docker image
+        run: |
+          export TAG=${GITHUB_SHA:0:8}
+          docker build . -t $DOCKER_REPOSITORY/$DOCKER_USERNAME/tem-docker-public:$TAG
+        env:
+          DOCKER_REPOSITORY: ${{ secrets.DOCKER_REPOSITORY }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
+      - name: Push Docker image
+        run: |
+          export TAG=${GITHUB_SHA:0:8}
+
+          echo "$DOCKER_PASSWORD" | docker login "$DOCKER_REPOSITORY" -u "$DOCKER_USERNAME" --password-stdin
+          docker push $DOCKER_REPOSITORY/$DOCKER_USERNAME/tem-docker-public:$TAG
+        if: github.ref == 'refs/heads/master'
+        env:
+          DOCKER_REPOSITORY: ${{ secrets.DOCKER_REPOSITORY }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+#      - name: Update deployment config
+#        run: sed -i s/:latest/:${GITHUB_SHA:0:8}/ config/deployment.yaml
+#        if: github.ref == 'refs/heads/master'
+
+#      - name: Deploy
+#        uses: sagebind/doks-kubectl-action@master
+#        if: github.ref == 'refs/heads/master'
+#        with:
+#          access_token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+#          cluster: nyc1
+#          args: apply -f config/deployment.yaml
