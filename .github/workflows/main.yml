@@ -29,14 +29,14 @@ jobs:
 
       - name: Testando Images
         run: echo "Entrei na feira da fruta"
-#      - name: Update deployment config
-#        run: sed -i s/:latest/:${GITHUB_SHA:0:8}/ config/deployment.yaml
-#        if: github.ref == 'refs/heads/master'
 
-#      - name: Deploy
-#        uses: sagebind/doks-kubectl-action@master
-#        if: github.ref == 'refs/heads/master'
-#        with:
-#          access_token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-#          cluster: nyc1
-#          args: apply -f config/deployment.yaml
+      - name: Update deployment config 
+        run: sed -i s/:latest/:${GITHUB_SHA:0:8}/ k8s/deployment.yaml
+        if: github.ref == 'refs/heads/master'
+
+      - name: Deploy
+        uses: danielr1996/kubectl-action@1.0.0
+        if: github.ref == 'refs/heads/master'
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          args: apply -f k8s
