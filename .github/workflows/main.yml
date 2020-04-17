@@ -31,7 +31,7 @@ jobs:
         run: echo "Entrei na feira da fruta"
 
       - name: Update deployment config 
-        run: sed -i s/:latest/:${GITHUB_SHA:0:8}/ k8s/deployment.yaml
+        run: sed -i s/:latest/:${GITHUB_SHA:0:8}/ k8s/deployment.yml
         if: github.ref == 'refs/heads/master'
 
       - name: Deploy
