@@ -42,10 +42,10 @@ jobs:
           chmod +x aws-iam-authenticator
           export PATH=$PATH:$(pwd)
           mkdir -p ~/.kube
-          echo $KUBE_CONFIG
-          echo $KUBE_CONFIG | base64 -d > ~/.kube/config
+          echo $KUBECONFIG
+          echo $KUBECONFIG | base64 -d > ~/.kube/config
           kubectl apply -f k8s
         if: github.ref == 'refs/heads/master'
         env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
         
