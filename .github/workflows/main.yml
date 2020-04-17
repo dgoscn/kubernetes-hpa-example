@@ -48,4 +48,6 @@ jobs:
         if: github.ref == 'refs/heads/master'
         env:
           KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG }}
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
