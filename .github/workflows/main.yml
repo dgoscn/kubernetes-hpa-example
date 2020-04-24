@@ -40,8 +40,8 @@ jobs:
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_REGION }}
+          aws_region: us-east-1
           kube_config_base64: ${{ secrets.KUBE_CONFIG }}
-          args: apply -f k8s 
+          args: apply -f k8s
           #set image --record deployment/pod-name pod-name=${{ steps.build.outputs.IMAGE_URL }}
 
