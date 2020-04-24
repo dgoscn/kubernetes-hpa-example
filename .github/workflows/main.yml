@@ -38,7 +38,7 @@ jobs:
         uses: nielsonsantana/eks-kubectl-action@develop
         if: github.ref == 'refs/heads/master'
         with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-east-1
           kube_config_base64: ${{ secrets.KUBE_CONFIG }}
